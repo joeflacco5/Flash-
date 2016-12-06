@@ -1,0 +1,32 @@
+{
+  "name": "Flash-",
+  "version": "1.0.0",
+  "description": "Flash Project Repo",
+  "main": "index.js",
+  "scripts": {
+    "build": "watchify src/app.js -o public/bundle.js -t [ babelify --presets [es2015 react ] ]",
+    "server": "cd public; live-server --port=1234 --entry-file=index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joeflacco5/Flash-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joeflacco5/Flash-/issues"
+  },
+  "homepage": "https://github.com/joeflacco5/Flash-#readme",
+  "dependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babelify": "^7.3.0",
+    "live-server": "^1.1.0",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-redux": "^4.4.6",
+    "redux": "^3.6.0",
+    "watchify": "^3.7.0"
+  }
+}
