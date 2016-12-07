@@ -19,4 +19,4 @@ class Sidebar extends Component{
 
 export default Sidebar;
 
-// {props.decks.map((deck , i) => <li key={i}>{deck.name}</li>)}
+// accessing decks and addingDeck through props. 

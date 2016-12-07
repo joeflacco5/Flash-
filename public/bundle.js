@@ -25774,7 +25774,7 @@ _reactDom2.default.render(_react2.default.createElement(
   App,
   null,
   ' ',
-  _react2.default.createElement(_sidebar2.default, { decks: [{ name: 'Deck 1' }], addingDeck: false })
+  _react2.default.createElement(_sidebar2.default, { decks: [{ name: 'Deck 1' }], addingDeck: true })
 ), document.getElementById('root'));
 // {this.props.children}
 
@@ -25841,6 +25841,6 @@ var Sidebar = function (_Component) {
 
 exports.default = Sidebar;
 
-// {props.decks.map((deck , i) => <li key={i}>{deck.name}</li>)}
+// accessing decks and addingDeck through props.
 
 },{"react":188}]},{},[199]);

@@ -39,5 +39,5 @@ class App extends Component{
   </div>);
   }
 }
-ReactDOM.render(<App> <Sidebar decks={[ {name: 'Deck 1'} ]} addingDeck={false} /></App> , document.getElementById('root'));
+ReactDOM.render(<App> <Sidebar decks={[ {name: 'Deck 1'} ]} addingDeck={true} /></App> , document.getElementById('root'));
 // {this.props.children}
