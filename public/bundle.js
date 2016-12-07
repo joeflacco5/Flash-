@@ -26422,8 +26422,6 @@ var _sidebar = require('./components/sidebar');
 
 var _sidebar2 = _interopRequireDefault(_sidebar);
 
-var _actions = require('./actions/actions');
-
 var _reducers = require('./reducers/reducers');
 
 var reducers = _interopRequireWildcard(_reducers);
@@ -26472,28 +26470,20 @@ var App = function (_Component) {
 function run() {
   var state = store.getState();
   _reactDom2.default.render(_react2.default.createElement(
-    App,
-    null,
-    _react2.default.createElement(_sidebar2.default, {
-      decks: state.decks,
-      addingDeck: state.addingDeck,
-      addDeck: function addDeck(name) {
-        return store.dispatch((0, _actions.addDeck)(name));
-      },
-      showAddDeck: function showAddDeck() {
-        return store.dispatch((0, _actions.showAddDeck)());
-      },
-      hideAddDeck: function hideAddDeck() {
-        return store.dispatch((0, _actions.hideAddDeck)());
-      }
-    })
+    _reactRedux.Provider,
+    { store: store },
+    _react2.default.createElement(
+      App,
+      null,
+      _react2.default.createElement(_sidebar2.default, null)
+    )
   ), document.getElementById('root'));
 }
 
 run();
 store.subscribe(run);
 
-},{"./actions/actions":208,"./components/sidebar":210,"./reducers/reducers":211,"moment":36,"react":197,"react-dom":39,"react-redux":168,"redux":203}],210:[function(require,module,exports){
+},{"./components/sidebar":210,"./reducers/reducers":211,"moment":36,"react":197,"react-dom":39,"react-redux":168,"redux":203}],210:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -26510,19 +26500,49 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRedux = require('react-redux');
 
+var _actions = require('../actions/actions');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*
 Properties that are data: (mapStateToProps)
 
 decks={state.decks}
-addingDeck={state.addingDeck}
+addingDeck={state.addingDeck} */
 
-Properties that are functions to call: (mapDispatchToProps)
+// converts State to Props for presentational components.
+// Returns an Object.
+
+var mapStateToProps = function mapStateToProps(_ref) {
+  var decks = _ref.decks,
+      addingDeck = _ref.addingDeck;
+  return {
+    decks: decks,
+    addingDeck: addingDeck
+  };
+};
+
+/* Properties that are functions to call: (mapDispatchToProps)
 
 addDeck={name => store.dispatch(addDeck(name))}
 showAddDeck={() => store.dispatch(showAddDeck())}
 hideAddDeck={() => store.dispatch(hideAddDeck())} */
+
+// Returns an Object.
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    addDeck: function addDeck(name) {
+      return dispatch((0, _actions.addDeck)(name));
+    },
+    showAddDeck: function showAddDeck() {
+      return dispatch((0, _actions.showAddDeck)());
+    },
+    hideAddDeck: function hideAddDeck() {
+      return dispatch((0, _actions.hideAddDeck)());
+    }
+  };
+};
 
 var Sidebar = _react2.default.createClass({
   displayName: 'Sidebar',
@@ -26571,11 +26591,9 @@ var Sidebar = _react2.default.createClass({
   }
 });
 
-exports.default = Sidebar;
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Sidebar);
 
-// accessing decks and addingDeck through props.
-
-},{"react":197,"react-dom":39,"react-redux":168}],211:[function(require,module,exports){
+},{"../actions/actions":208,"react":197,"react-dom":39,"react-redux":168}],211:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

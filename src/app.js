@@ -1,10 +1,9 @@
 import {createStore, combineReducers} from 'redux';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux'; 
+import {Provider} from 'react-redux';
 import moment from 'moment';
 import Sidebar from './components/sidebar';
-import { addDeck, showAddDeck, hideAddDeck } from './actions/actions';
 import * as reducers from './reducers/reducers';
 
 console.log("Hello React and Redux!");
@@ -25,17 +24,14 @@ class App extends Component{
   </div>);
   }
 }
+
 function run() {
   let state = store.getState();
-ReactDOM.render(<App>
-  <Sidebar
-    decks={state.decks}
-    addingDeck={state.addingDeck}
-    addDeck={name => store.dispatch(addDeck(name))}
-    showAddDeck={() => store.dispatch(showAddDeck())}
-    hideAddDeck={() => store.dispatch(hideAddDeck())}
-    />
-  </App> , document.getElementById('root'));
+ReactDOM.render(<Provider store={store}>
+  <App>
+  <Sidebar />
+  </App>
+  </Provider> , document.getElementById('root'));
 }
 
 run();
