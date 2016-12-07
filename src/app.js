@@ -58,5 +58,12 @@ class App extends Component{
   </div>);
   }
 }
-ReactDOM.render(<App> <Sidebar decks={[ {name: 'Deck 1'} ]} addingDeck={true} /></App> , document.getElementById('root'));
-// {this.props.children}
+function run() {
+  let state = store.getState();
+ReactDOM.render(<App> <Sidebar decks={state.decks} addingDeck={state.addingDeck}/></App> , document.getElementById('root'));
+}
+
+run();
+store.subscribe(run);
+
+store.dispatch({type: "ADD_DECK", data: "Deck 1"})

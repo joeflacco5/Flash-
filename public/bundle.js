@@ -25793,13 +25793,20 @@ var App = function (_Component) {
   return App;
 }(_react.Component);
 
-_reactDom2.default.render(_react2.default.createElement(
-  App,
-  null,
-  ' ',
-  _react2.default.createElement(_sidebar2.default, { decks: [{ name: 'Deck 1' }], addingDeck: true })
-), document.getElementById('root'));
-// {this.props.children}
+function run() {
+  var state = store.getState();
+  _reactDom2.default.render(_react2.default.createElement(
+    App,
+    null,
+    ' ',
+    _react2.default.createElement(_sidebar2.default, { decks: state.decks, addingDeck: state.addingDeck })
+  ), document.getElementById('root'));
+}
+
+run();
+store.subscribe(run);
+
+store.dispatch({ type: "ADD_DECK", data: "Deck 1" });
 
 },{"./components/sidebar":200,"moment":34,"react":188,"react-dom":37,"redux":194}],200:[function(require,module,exports){
 'use strict';
