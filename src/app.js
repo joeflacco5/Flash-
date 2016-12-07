@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import Sidebar from './components/sidebar';
+import addDeck from './actions/actions'; 
 
 console.log("Hello React and Redux!");
 
@@ -60,10 +61,8 @@ class App extends Component{
 }
 function run() {
   let state = store.getState();
-ReactDOM.render(<App> <Sidebar decks={state.decks} addingDeck={state.addingDeck}/></App> , document.getElementById('root'));
+ReactDOM.render(<App> <Sidebar decks={state.decks} addingDeck={state.addingDeck} addDeck={name => store.dispatch(addDeck(name))}/></App> , document.getElementById('root'));
 }
 
 run();
 store.subscribe(run);
-
-store.dispatch({type: "ADD_DECK", data: "Deck 1"})

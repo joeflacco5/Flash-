@@ -25692,6 +25692,30 @@ function symbolObservablePonyfill(root) {
 	return result;
 };
 },{}],199:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// ADD_DECK : action for adding a deck!
+// SHOW_ADD_DECK  : action for visibility of the textbox.
+// HIDE_ADD_DECK  : action for visibility of the textbox.
+
+// Actions in the form of objects. Fire them with Action creator functions.
+
+var addDeck = exports.addDeck = function addDeck(name) {
+  return { type: 'ADD_DECK', data: name };
+};
+// remember parentheses to return the object.
+
+var showAddDeck = exports.showAddDeck = function showAddDeck() {
+  return { type: "SHOW_ADD_DECK" };
+};
+var hideAddDeck = exports.hideAddDeck = function hideAddDeck() {
+  return { type: "HIDE_ADD_DECK" };
+};
+
+},{}],200:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -25713,6 +25737,10 @@ var _moment2 = _interopRequireDefault(_moment);
 var _sidebar = require('./components/sidebar');
 
 var _sidebar2 = _interopRequireDefault(_sidebar);
+
+var _actions = require('./actions/actions');
+
+var _actions2 = _interopRequireDefault(_actions);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25799,16 +25827,16 @@ function run() {
     App,
     null,
     ' ',
-    _react2.default.createElement(_sidebar2.default, { decks: state.decks, addingDeck: state.addingDeck })
+    _react2.default.createElement(_sidebar2.default, { decks: state.decks, addingDeck: state.addingDeck, addDeck: function addDeck(name) {
+        return store.dispatch((0, _actions2.default)(name));
+      } })
   ), document.getElementById('root'));
 }
 
 run();
 store.subscribe(run);
 
-store.dispatch({ type: "ADD_DECK", data: "Deck 1" });
-
-},{"./components/sidebar":200,"moment":34,"react":188,"react-dom":37,"redux":194}],200:[function(require,module,exports){
+},{"./actions/actions":199,"./components/sidebar":201,"moment":34,"react":188,"react-dom":37,"redux":194}],201:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25839,8 +25867,17 @@ var Sidebar = function (_Component) {
   }
 
   _createClass(Sidebar, [{
+    key: 'createDeck',
+    value: function createDeck(e) {
+      if (evt.which !== 13) return;
+      var name = ReactDOM.findDOMNode(this.refs.add).value;
+      this.props.addDeck(name);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var props = this.props;
       return _react2.default.createElement(
         'div',
@@ -25861,7 +25898,14 @@ var Sidebar = function (_Component) {
             );
           })
         ),
-        props.addingDeck && _react2.default.createElement('input', { ref: 'add' })
+        props.addingDeck && _react2.default.createElement('input', { ref: 'add', onKeyPress: this.createDeck }),
+        _react2.default.createElement(
+          'button',
+          { onClick: function onClick(e) {
+              return _this2.props.showAddDeck();
+            } },
+          'New Deck'
+        )
       );
     }
   }]);
@@ -25873,4 +25917,4 @@ exports.default = Sidebar;
 
 // accessing decks and addingDeck through props.
 
-},{"react":188}]},{},[199]);
+},{"react":188}]},{},[200]);
