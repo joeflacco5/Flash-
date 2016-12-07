@@ -25754,14 +25754,11 @@ var App = function (_Component) {
   _createClass(App, [{
     key: 'render',
     value: function render() {
+      var props = this.props.children;
       return _react2.default.createElement(
         'div',
         { className: 'app' },
-        _react2.default.createElement(
-          'h1',
-          null,
-          ' Hello React! '
-        )
+        props
       );
     }
   }]);
@@ -25769,6 +25766,11 @@ var App = function (_Component) {
   return App;
 }(_react.Component);
 
-_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
+_reactDom2.default.render(_react2.default.createElement(
+  App,
+  null,
+  ' Hello React! '
+), document.getElementById('root'));
+// {this.props.children}
 
 },{"moment":34,"react":188,"react-dom":37,"redux":194}]},{},[199]);

@@ -32,9 +32,11 @@ class App extends Component{
     super(props);
   }
   render() {
+    let props = this.props.children
     return (<div className='app'>
-    <h1> Hello React! </h1>
+    {props}
   </div>);
   }
 }
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App> Hello React! </App> , document.getElementById('root'));
+// {this.props.children}
