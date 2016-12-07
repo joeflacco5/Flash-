@@ -25759,7 +25759,6 @@ console.log("Hello React and Redux!");
 // State Shape. { cards: [{}, {}, {}], decks: [{}, {}, {}] } : Top level properties.
 // (As many Top Level Properties as possible, Reducer for each!)
 
-
 var store = (0, _redux.createStore)((0, _redux.combineReducers)(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 var App = function (_Component) {
@@ -25791,10 +25790,19 @@ function run() {
   _reactDom2.default.render(_react2.default.createElement(
     App,
     null,
-    ' ',
-    _react2.default.createElement(_sidebar2.default, { decks: state.decks, addingDeck: state.addingDeck, addDeck: function addDeck(name) {
+    _react2.default.createElement(_sidebar2.default, {
+      decks: state.decks,
+      addingDeck: state.addingDeck,
+      addDeck: function addDeck(name) {
         return store.dispatch((0, _actions.addDeck)(name));
-      } })
+      },
+      showAddDeck: function showAddDeck() {
+        return store.dispatch((0, _actions.showAddDeck)());
+      },
+      hideAddDeck: function hideAddDeck() {
+        return store.dispatch((0, _actions.hideAddDeck)());
+      }
+    })
   ), document.getElementById('root'));
 }
 
@@ -25808,86 +25816,81 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var Sidebar = _react2.default.createClass({
+  displayName: 'Sidebar',
+  componentDidUpdate: function componentDidUpdate() {
+    var el = _reactDom2.default.findDOMNode(this.refs.add);
+    if (el) el.focus();
+  },
+  render: function render() {
+    var _this = this;
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Sidebar = function (_Component) {
-  _inherits(Sidebar, _Component);
-
-  function Sidebar(props) {
-    _classCallCheck(this, Sidebar);
-
-    return _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call(this, props));
+    var props = this.props;
+    return _react2.default.createElement(
+      'div',
+      { className: 'sidebar' },
+      _react2.default.createElement(
+        'h2',
+        null,
+        ' All Decks '
+      ),
+      _react2.default.createElement(
+        'button',
+        { onClick: function onClick(e) {
+            return _this.props.showAddDeck();
+          } },
+        'New Deck'
+      ),
+      _react2.default.createElement(
+        'ul',
+        null,
+        props.decks.map(function (deck, i) {
+          return _react2.default.createElement(
+            'li',
+            { key: i },
+            deck.name
+          );
+        })
+      ),
+      props.addingDeck && _react2.default.createElement('input', { ref: 'add', onKeyPress: this.createDeck })
+    );
+  },
+  createDeck: function createDeck(e) {
+    if (e.which !== 13) return;
+    var name = _reactDom2.default.findDOMNode(this.refs.add).value;
+    this.props.addDeck(name);
+    this.props.hideAddDeck();
   }
-
-  _createClass(Sidebar, [{
-    key: 'createDeck',
-    value: function createDeck(e) {
-      if (evt.which !== 13) return;
-      var name = ReactDOM.findDOMNode(this.refs.add).value;
-      this.props.addDeck(name);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var props = this.props;
-      return _react2.default.createElement(
-        'div',
-        { className: 'sidebar' },
-        _react2.default.createElement(
-          'h2',
-          null,
-          ' All Decks '
-        ),
-        _react2.default.createElement(
-          'ul',
-          null,
-          props.decks.map(function (deck, i) {
-            return _react2.default.createElement(
-              'li',
-              { key: i },
-              deck.name
-            );
-          })
-        ),
-        props.addingDeck && _react2.default.createElement('input', { ref: 'add', onKeyPress: this.createDeck }),
-        _react2.default.createElement(
-          'button',
-          { onClick: function onClick(e) {
-              return _this2.props.showAddDeck();
-            } },
-          'New Deck'
-        )
-      );
-    }
-  }]);
-
-  return Sidebar;
-}(_react.Component);
+});
 
 exports.default = Sidebar;
 
 // accessing decks and addingDeck through props.
 
-},{"react":188}],202:[function(require,module,exports){
+},{"react":188,"react-dom":37}],202:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.addingDeck = exports.decks = exports.cards = undefined;
+
+var _moment = require("moment");
+
+var _moment2 = _interopRequireDefault(_moment);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // Reducer for just the cards property of the state.
 // Cards property is an array.
 var cards = exports.cards = function cards(state, action) {
@@ -25895,7 +25898,7 @@ var cards = exports.cards = function cards(state, action) {
     case "ADD_CARD":
       var newCard = Object.assign({}, action.data, {
         score: 1,
-        id: moment().format()
+        id: (0, _moment2.default)().format()
       });
       return state.concat([newCard]);
     default:
@@ -25906,7 +25909,7 @@ var cards = exports.cards = function cards(state, action) {
 var decks = exports.decks = function decks(state, action) {
   switch (action.type) {
     case "ADD_DECK":
-      var newDeck = { name: action.data, id: moment().format() };
+      var newDeck = { name: action.data, id: (0, _moment2.default)().format() };
       return state.concat([newDeck]);
     default:
       return state || [];
@@ -25924,4 +25927,4 @@ var addingDeck = exports.addingDeck = function addingDeck(state, action) {
   }
 };
 
-},{}]},{},[200]);
+},{"moment":34}]},{},[200]);

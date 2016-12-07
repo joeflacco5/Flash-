@@ -11,7 +11,6 @@ console.log("Hello React and Redux!");
 // State Shape. { cards: [{}, {}, {}], decks: [{}, {}, {}] } : Top level properties.
 // (As many Top Level Properties as possible, Reducer for each!)
 
-
 const store = createStore(combineReducers(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 class App extends Component{
@@ -27,7 +26,15 @@ class App extends Component{
 }
 function run() {
   let state = store.getState();
-ReactDOM.render(<App> <Sidebar decks={state.decks} addingDeck={state.addingDeck} addDeck={name => store.dispatch(addDeck(name))}/></App> , document.getElementById('root'));
+ReactDOM.render(<App>
+  <Sidebar
+    decks={state.decks}
+    addingDeck={state.addingDeck}
+    addDeck={name => store.dispatch(addDeck(name))}
+    showAddDeck={() => store.dispatch(showAddDeck())}
+    hideAddDeck={() => store.dispatch(hideAddDeck())}
+    />
+  </App> , document.getElementById('root'));
 }
 
 run();

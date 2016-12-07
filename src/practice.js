@@ -58,3 +58,18 @@ class App extends Component {
 
 
 ReactDOM.render(<App> <Sidebar decks={state.decks} addDeck={state.deckVisibility} /> </App>, document.getElementById('root'));
+
+class Sidebar extends Component{
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    let props = this.props;
+    return (<div className="sidebar">
+    <ul>
+    {props.decks.map((deck, i) => <li key={i}>{deck.name}</li> }
+    </ul>
+    {props.addingDeck && <input ref='add' }
+  </div>)
+  }
+}

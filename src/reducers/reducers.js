@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 // Reducer for just the cards property of the state.
 // Cards property is an array.
 export const cards = ( state, action ) => {
