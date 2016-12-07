@@ -1,5 +1,6 @@
 import {createStore, combineReducers} from 'redux';
-import React from 'react';
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import moment from 'moment';
 
 console.log("Hello React and Redux!");
@@ -25,3 +26,15 @@ const cards = ( state, action ) => {
 const store = createStore(combineReducers({
   cards
 }));
+
+class App extends Component{
+  constructor(props){
+    super(props);
+  }
+  render() {
+    return (<div className='app'>
+    <h1> Hello React! </h1>
+  </div>);
+  }
+}
+ReactDOM.render(<App />, document.getElementById('root'));
