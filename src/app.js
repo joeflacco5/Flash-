@@ -24,16 +24,4 @@ const cards = ( state, action ) => {
 
 const store = createStore(combineReducers({
   cards
-})); 
-
-store.subscribe(() => {
-  console.log(store.getState());
-});
-
-store.dispatch({
-  type: "ADD_CARD",
-  data: {
-    front: 'front',
-    back: 'back'
-  }
-})
+}));

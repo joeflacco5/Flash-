@@ -9221,16 +9221,4 @@ var store = (0, _redux.createStore)((0, _redux.combineReducers)({
   cards: cards
 }));
 
-store.subscribe(function () {
-  console.log(store.getState());
-});
-
-store.dispatch({
-  type: "ADD_CARD",
-  data: {
-    front: 'front',
-    back: 'back'
-  }
-});
-
 },{"moment":15,"react":42,"redux":48}]},{},[53]);
