@@ -25810,7 +25810,28 @@ var Sidebar = function (_Component) {
   _createClass(Sidebar, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('div', { className: 'sidebar' });
+      var props = this.props;
+      return _react2.default.createElement(
+        'div',
+        { className: 'sidebar' },
+        _react2.default.createElement(
+          'h2',
+          null,
+          ' All Decks '
+        ),
+        _react2.default.createElement(
+          'ul',
+          null,
+          props.decks.map(function (deck, i) {
+            return _react2.default.createElement(
+              'li',
+              { key: i },
+              deck.name
+            );
+          })
+        ),
+        props.addingDeck && _react2.default.createElement('input', { ref: 'add' })
+      );
     }
   }]);
 
@@ -25818,5 +25839,7 @@ var Sidebar = function (_Component) {
 }(_react.Component);
 
 exports.default = Sidebar;
+
+// {props.decks.map((deck , i) => <li key={i}>{deck.name}</li>)}
 
 },{"react":188}]},{},[199]);
