@@ -9199,20 +9199,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 console.log("Hello React and Redux!");
 
-var store = (0, _redux.createStore)(function (state, action) {
+// State Shape. { cards: [{}, {}, {}], decks: [{}, {}, {}] } : Top level properties.
+// (As many Top Level Properties as possible, Reducer for each!)
+
+// Reducer for just the cards property of the state.
+// Cards property is an array.
+var cards = function cards(state, action) {
   switch (action.type) {
     case "ADD_CARD":
       var newCard = Object.assign({}, action.data, {
         score: 1,
         id: (0, _moment2.default)().format()
       });
-      return Object.assign({}, state, {
-        cards: state.cards ? state.cards.concat([newCard]) : [newCard]
-      });
+      return state.concat([newCard]);
     default:
-      return state || {};
+      return state || [];
   }
-});
+};
+
+var store = (0, _redux.createStore)((0, _redux.combineReducers)({
+  cards: cards
+}));
 
 store.subscribe(function () {
   console.log(store.getState());

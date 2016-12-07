@@ -4,20 +4,27 @@ import moment from 'moment';
 
 console.log("Hello React and Redux!");
 
-const store = createStore(function(state, action) {
+// State Shape. { cards: [{}, {}, {}], decks: [{}, {}, {}] } : Top level properties.
+// (As many Top Level Properties as possible, Reducer for each!)
+
+// Reducer for just the cards property of the state.
+// Cards property is an array.
+const cards = ( state, action ) => {
   switch (action.type) {
     case "ADD_CARD":
     let newCard = Object.assign({}, action.data, {
       score: 1,
       id: moment().format()
-    })
-    return Object.assign({}, state, {
-      cards: state.cards ? state.cards.concat([newCard]) : [newCard]
     });
+    return state.concat([newCard])
     default:
-    return state || {};
+    return state || [];
   }
-});
+}
+
+const store = createStore(combineReducers({
+  cards
+})); 
 
 store.subscribe(() => {
   console.log(store.getState());
