@@ -1,5 +1,20 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {connect} from 'react-redux';
+
+/*
+Properties that are data: (mapStateToProps)
+
+decks={state.decks}
+addingDeck={state.addingDeck}
+
+Properties that are functions to call: (mapDispatchToProps)
+
+addDeck={name => store.dispatch(addDeck(name))}
+showAddDeck={() => store.dispatch(showAddDeck())}
+hideAddDeck={() => store.dispatch(hideAddDeck())} */
+
+
 
 const Sidebar = React.createClass({
   componentDidUpdate() {

@@ -1,6 +1,7 @@
 import {createStore, combineReducers} from 'redux';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux'; 
 import moment from 'moment';
 import Sidebar from './components/sidebar';
 import { addDeck, showAddDeck, hideAddDeck } from './actions/actions';
