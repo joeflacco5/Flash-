@@ -2,6 +2,7 @@ import {createStore, combineReducers} from 'redux';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
+import Sidebar from './components/sidebar'; 
 
 console.log("Hello React and Redux!");
 
