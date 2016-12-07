@@ -3,50 +3,16 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import Sidebar from './components/sidebar';
-import addDeck from './actions/actions'; 
+import { addDeck, showAddDeck, hideAddDeck } from './actions/actions';
+import * as reducers from './reducers/reducers';
 
 console.log("Hello React and Redux!");
 
 // State Shape. { cards: [{}, {}, {}], decks: [{}, {}, {}] } : Top level properties.
 // (As many Top Level Properties as possible, Reducer for each!)
 
-// Reducer for just the cards property of the state.
-// Cards property is an array.
-const cards = ( state, action ) => {
-  switch (action.type) {
-    case "ADD_CARD":
-    let newCard = Object.assign({}, action.data, {
-      score: 1,
-      id: moment().format()
-    });
-    return state.concat([newCard])
-    default:
-    return state || [];
-  }
-}
 
-const decks = (state, action) => {
-  switch (action.type) {
-    case "ADD_DECK":
-    let newDeck = { name: action.data, id: moment().format()};
-      return state.concat([newDeck]);
-      default: return state || []
-}
-}
-
-const addingDeck = (state, action) => {
-  switch (action.type) {
-    case "SHOW_ADD_DECK": return true;
-    case "HIDE_ADD_DECK": return false;
-    default: return state || false;
-  }
-};
-
-const store = createStore(combineReducers({
-  cards,
-  decks,
-  addingDeck
-}), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(combineReducers(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 class App extends Component{
   constructor(props){

@@ -25740,7 +25740,11 @@ var _sidebar2 = _interopRequireDefault(_sidebar);
 
 var _actions = require('./actions/actions');
 
-var _actions2 = _interopRequireDefault(_actions);
+var _reducers = require('./reducers/reducers');
+
+var reducers = _interopRequireWildcard(_reducers);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25755,47 +25759,8 @@ console.log("Hello React and Redux!");
 // State Shape. { cards: [{}, {}, {}], decks: [{}, {}, {}] } : Top level properties.
 // (As many Top Level Properties as possible, Reducer for each!)
 
-// Reducer for just the cards property of the state.
-// Cards property is an array.
-var cards = function cards(state, action) {
-  switch (action.type) {
-    case "ADD_CARD":
-      var newCard = Object.assign({}, action.data, {
-        score: 1,
-        id: (0, _moment2.default)().format()
-      });
-      return state.concat([newCard]);
-    default:
-      return state || [];
-  }
-};
 
-var decks = function decks(state, action) {
-  switch (action.type) {
-    case "ADD_DECK":
-      var newDeck = { name: action.data, id: (0, _moment2.default)().format() };
-      return state.concat([newDeck]);
-    default:
-      return state || [];
-  }
-};
-
-var addingDeck = function addingDeck(state, action) {
-  switch (action.type) {
-    case "SHOW_ADD_DECK":
-      return true;
-    case "HIDE_ADD_DECK":
-      return false;
-    default:
-      return state || false;
-  }
-};
-
-var store = (0, _redux.createStore)((0, _redux.combineReducers)({
-  cards: cards,
-  decks: decks,
-  addingDeck: addingDeck
-}), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+var store = (0, _redux.createStore)((0, _redux.combineReducers)(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 var App = function (_Component) {
   _inherits(App, _Component);
@@ -25828,7 +25793,7 @@ function run() {
     null,
     ' ',
     _react2.default.createElement(_sidebar2.default, { decks: state.decks, addingDeck: state.addingDeck, addDeck: function addDeck(name) {
-        return store.dispatch((0, _actions2.default)(name));
+        return store.dispatch((0, _actions.addDeck)(name));
       } })
   ), document.getElementById('root'));
 }
@@ -25836,7 +25801,7 @@ function run() {
 run();
 store.subscribe(run);
 
-},{"./actions/actions":199,"./components/sidebar":201,"moment":34,"react":188,"react-dom":37,"redux":194}],201:[function(require,module,exports){
+},{"./actions/actions":199,"./components/sidebar":201,"./reducers/reducers":202,"moment":34,"react":188,"react-dom":37,"redux":194}],201:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25917,4 +25882,46 @@ exports.default = Sidebar;
 
 // accessing decks and addingDeck through props.
 
-},{"react":188}]},{},[200]);
+},{"react":188}],202:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// Reducer for just the cards property of the state.
+// Cards property is an array.
+var cards = exports.cards = function cards(state, action) {
+  switch (action.type) {
+    case "ADD_CARD":
+      var newCard = Object.assign({}, action.data, {
+        score: 1,
+        id: moment().format()
+      });
+      return state.concat([newCard]);
+    default:
+      return state || [];
+  }
+};
+
+var decks = exports.decks = function decks(state, action) {
+  switch (action.type) {
+    case "ADD_DECK":
+      var newDeck = { name: action.data, id: moment().format() };
+      return state.concat([newDeck]);
+    default:
+      return state || [];
+  }
+};
+
+var addingDeck = exports.addingDeck = function addingDeck(state, action) {
+  switch (action.type) {
+    case "SHOW_ADD_DECK":
+      return true;
+    case "HIDE_ADD_DECK":
+      return false;
+    default:
+      return state || false;
+  }
+};
+
+},{}]},{},[200]);
