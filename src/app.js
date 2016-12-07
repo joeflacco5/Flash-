@@ -2,7 +2,7 @@ import {createStore, combineReducers} from 'redux';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
-import Sidebar from './components/sidebar'; 
+import Sidebar from './components/sidebar';
 
 console.log("Hello React and Redux!");
 
@@ -39,5 +39,5 @@ class App extends Component{
   </div>);
   }
 }
-ReactDOM.render(<App> Hello React! </App> , document.getElementById('root'));
+ReactDOM.render(<App> <Sidebar decks={[ {name: 'Deck 1'} ]} addingDeck={false} /></App> , document.getElementById('root'));
 // {this.props.children}

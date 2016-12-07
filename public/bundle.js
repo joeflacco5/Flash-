@@ -25773,7 +25773,8 @@ var App = function (_Component) {
 _reactDom2.default.render(_react2.default.createElement(
   App,
   null,
-  ' Hello React! '
+  ' ',
+  _react2.default.createElement(_sidebar2.default, { decks: [{ name: 'Deck 1' }], addingDeck: false })
 ), document.getElementById('root'));
 // {this.props.children}
 
