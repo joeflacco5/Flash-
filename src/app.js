@@ -24,9 +24,28 @@ const cards = ( state, action ) => {
   }
 }
 
+const decks = (state, action) => {
+  switch (action.type) {
+    case "ADD_DECK":
+    let newDeck = { name: action.data, id: moment().format()};
+      return state.concat([newDeck]);
+      default: return state || []
+}
+}
+
+const addingDeck = (state, action) => {
+  switch (action.type) {
+    case "SHOW_ADD_DECK": return true;
+    case "HIDE_ADD_DECK": return false;
+    default: return state || false;
+  }
+};
+
 const store = createStore(combineReducers({
-  cards
-}));
+  cards,
+  decks,
+  addingDeck
+}), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 class App extends Component{
   constructor(props){

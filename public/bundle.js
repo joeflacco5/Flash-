@@ -25742,9 +25742,32 @@ var cards = function cards(state, action) {
   }
 };
 
+var decks = function decks(state, action) {
+  switch (action.type) {
+    case "ADD_DECK":
+      var newDeck = { name: action.data, id: (0, _moment2.default)().format() };
+      return state.concat([newDeck]);
+    default:
+      return state || [];
+  }
+};
+
+var addingDeck = function addingDeck(state, action) {
+  switch (action.type) {
+    case "SHOW_ADD_DECK":
+      return true;
+    case "HIDE_ADD_DECK":
+      return false;
+    default:
+      return state || false;
+  }
+};
+
 var store = (0, _redux.createStore)((0, _redux.combineReducers)({
-  cards: cards
-}));
+  cards: cards,
+  decks: decks,
+  addingDeck: addingDeck
+}), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 var App = function (_Component) {
   _inherits(App, _Component);
