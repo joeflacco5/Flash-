@@ -31343,6 +31343,10 @@ var hideAddDeck = exports.hideAddDeck = function hideAddDeck() {
   return { type: "HIDE_ADD_DECK" };
 };
 
+var addCard = exports.addCard = function addCard(card) {
+  return { type: "ADD_CARD", data: card };
+};
+
 },{}],267:[function(require,module,exports){
 'use strict';
 
