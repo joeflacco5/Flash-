@@ -3,12 +3,12 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import moment from 'moment';
-import Sidebar from './components/sidebar';
 import * as reducers from './reducers/reducers';
 reducers.routing = routerReducer;
 import {Route, Router, browserHistory} from 'react-router';
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 import VisibleCards from './components/visiblecards';
+import App from './components/app'; 
 
 console.log("Hello React and Redux!");
 
@@ -18,18 +18,7 @@ console.log("Hello React and Redux!");
 const store = createStore(combineReducers(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 const history = syncHistoryWithStore(browserHistory, store);
 
-class App extends Component{
-  constructor(props){
-    super(props);
-  }
-  render() {
-    let props = this.props.children
-    return (<div className='app'>
-    <Sidebar />
-    {props}
-  </div>);
-  }
-}
+
 
 function run() {
   let state = store.getState();
