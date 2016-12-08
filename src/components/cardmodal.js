@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import ReactDOM from 'react-dom';
 
-const CardModal = React.CreateClass ({
+const CardModal = React.createClass ({
   componentDidUpdate() {
     ReactDOM.findDOMNode(this.refs.front).focus();
   },
@@ -39,4 +39,4 @@ onDelete(e) {
   browserHistory.push(`/deck/${this.props.card.deckId}`);
 }
 });
-export default CardModal; 
+export default CardModal;

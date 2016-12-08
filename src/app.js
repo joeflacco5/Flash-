@@ -10,6 +10,7 @@ import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 import VisibleCards from './components/visiblecards';
 import App from './components/main';
 import * as localStore from './localstore';
+import CardModal from './components/newcardmodal';
 
 console.log("Hello React and Redux!");
 
@@ -23,11 +24,13 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 function run() {
   let state = store.getState();
-  localStore.setLocalStore(state, ['decks', 'cards']); 
+  localStore.setLocalStore(state, ['decks', 'cards']);
 ReactDOM.render(<Provider store={store}>
   <Router history={history}>
     <Route path='/' component={App}>
-      <Route path='/deck/:deckId' component={VisibleCards}/>
+      <Route path='/deck/:deckId' component={VisibleCards}>
+        <Route path='/deck/:deckId/new' component={CardModal}/>
+      </Route>
     </Route>
   </Router>
   </Provider> , document.getElementById('root'));
