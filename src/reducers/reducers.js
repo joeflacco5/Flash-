@@ -39,3 +39,12 @@ export const addingDeck = (state, action) => {
     default: return state || false;
   }
 };
+
+export const cardFilter = ( state, action ) => {
+  switch (action.type) {
+    case "FILTER_CARDS":
+    return action.data;
+    default:
+    return state || " ";  
+  }
+}

@@ -12,3 +12,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardModal);
+
+
+// many presentational components can be re-used. 

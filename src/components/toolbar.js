@@ -1,5 +1,5 @@
 import React from 'react';
-import {showAddDeck} from '../actions/actions';
+import {showAddDeck, filterCards} from '../actions/actions';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
