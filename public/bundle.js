@@ -31456,7 +31456,7 @@ var App = function App(_ref2) {
   return _react2.default.createElement(
     'div',
     { className: 'app' },
-    _react2.default.createElement(_toolbar2.default, null),
+    _react2.default.createElement(_toolbar2.default, { deckId: deckId }),
     _react2.default.createElement(_sidebar2.default, null),
     children
   );
@@ -31601,7 +31601,23 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 var Toolbar = function Toolbar(_ref) {
-  var showAddDeck = _ref.showAddDeck;
+  var deckId = _ref.deckId,
+      showAddDeck = _ref.showAddDeck;
+
+  var deckTools = deckId ? _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      _reactRouter.Link,
+      { className: 'btn', to: '/deck/' + deckId + '/new' },
+      ' New Card '
+    ),
+    _react2.default.createElement(
+      _reactRouter.Link,
+      { className: 'btn', to: '/deck/' + deckId + '/study' },
+      ' Study Deck '
+    )
+  ) : null;
 
   return _react2.default.createElement(
     'div',
@@ -31614,7 +31630,8 @@ var Toolbar = function Toolbar(_ref) {
         { onClick: showAddDeck },
         ' Button! '
       )
-    )
+    ),
+    deckTools
   );
 };
 

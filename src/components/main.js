@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Sidebar from './sidebar';
 import React from 'react';
-import Toolbar from './toolbar'; 
+import Toolbar from './toolbar';
 
 // second parameter is router Destructured.
 const mapStateToProps = (props, {params: {deckId} }) => ({
@@ -10,7 +10,7 @@ const mapStateToProps = (props, {params: {deckId} }) => ({
 
 const App = ({deckId, children}) => {
     return (<div className='app'>
-    <Toolbar />
+    <Toolbar deckId={deckId} />
     <Sidebar />
     {children}
   </div>);
