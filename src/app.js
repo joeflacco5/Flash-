@@ -5,6 +5,9 @@ import {Provider} from 'react-redux';
 import moment from 'moment';
 import Sidebar from './components/sidebar';
 import * as reducers from './reducers/reducers';
+reducers.routing = routerReducer;
+import {Route, Router, browserHistory} from 'react-router';
+import {syncStoreWithHistory, routerReducer} from 'react-router-redux';
 
 console.log("Hello React and Redux!");
 
@@ -12,6 +15,7 @@ console.log("Hello React and Redux!");
 // (As many Top Level Properties as possible, Reducer for each!)
 
 const store = createStore(combineReducers(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const history =
 
 class App extends Component{
   constructor(props){
