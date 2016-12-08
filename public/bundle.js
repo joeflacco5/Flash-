@@ -31418,7 +31418,7 @@ function run() {
 run();
 store.subscribe(run);
 
-},{"./components/main":268,"./components/visiblecards":270,"./localstore":271,"./reducers/reducers":272,"moment":53,"react":253,"react-dom":57,"react-redux":186,"react-router":222,"react-router-redux":192,"redux":259}],268:[function(require,module,exports){
+},{"./components/main":268,"./components/visiblecards":271,"./localstore":272,"./reducers/reducers":273,"moment":53,"react":253,"react-dom":57,"react-redux":186,"react-router":222,"react-router-redux":192,"redux":259}],268:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31435,9 +31435,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _toolbar = require('./toolbar');
+
+var _toolbar2 = _interopRequireDefault(_toolbar);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// second parameter is router Destructured. 
+// second parameter is router Destructured.
 var mapStateToProps = function mapStateToProps(props, _ref) {
   var deckId = _ref.params.deckId;
   return {
@@ -31452,21 +31456,15 @@ var App = function App(_ref2) {
   return _react2.default.createElement(
     'div',
     { className: 'app' },
+    _react2.default.createElement(_toolbar2.default, null),
     _react2.default.createElement(_sidebar2.default, null),
-    _react2.default.createElement(
-      'h1',
-      null,
-      ' Deck ',
-      deckId,
-      ' '
-    ),
     children
   );
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 
-},{"./sidebar":269,"react":253,"react-redux":186}],269:[function(require,module,exports){
+},{"./sidebar":269,"./toolbar":270,"react":253,"react-redux":186}],269:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31536,8 +31534,6 @@ var Sidebar = _react2.default.createClass({
     if (el) el.focus();
   },
   render: function render() {
-    var _this = this;
-
     var props = this.props;
     return _react2.default.createElement(
       'div',
@@ -31546,13 +31542,6 @@ var Sidebar = _react2.default.createClass({
         'h2',
         null,
         ' All Decks '
-      ),
-      _react2.default.createElement(
-        'button',
-        { onClick: function onClick(e) {
-            return _this.props.showAddDeck();
-          } },
-        'New Deck'
       ),
       _react2.default.createElement(
         'ul',
@@ -31593,6 +31582,56 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _actions = require('../actions/actions');
+
+var _reactRedux = require('react-redux');
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//Of course you need to create a mapDispatchToProps !!!
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    showAddDeck: function showAddDeck() {
+      return dispatch((0, _actions.showAddDeck)());
+    }
+  };
+};
+
+var Toolbar = function Toolbar(_ref) {
+  var showAddDeck = _ref.showAddDeck;
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'toolbar' },
+    _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        'button',
+        { onClick: showAddDeck },
+        ' Button! '
+      )
+    )
+  );
+};
+
+// remember to connect if you are creating a container component!
+exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Toolbar);
+
+},{"../actions/actions":266,"react":253,"react-redux":186,"react-router":222}],271:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var VisibleCards = function VisibleCards() {
@@ -31605,7 +31644,7 @@ var VisibleCards = function VisibleCards() {
 
 exports.default = VisibleCards;
 
-},{"react":253}],271:[function(require,module,exports){
+},{"react":253}],272:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31623,7 +31662,7 @@ var setLocalStore = exports.setLocalStore = function setLocalStore(state, props)
   localStorage.setItem('state', JSON.stringify(toSave));
 };
 
-},{}],272:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
