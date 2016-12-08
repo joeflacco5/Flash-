@@ -17,7 +17,7 @@ export const cards = ( state, action ) => {
     );
 
     case "DELETE_CARD":
-    return state.filter( c => c.id !== action.data );
+    return state.filter( c => c.id !== action.data
 
     default:
     return state || [];
@@ -39,4 +39,4 @@ export const addingDeck = (state, action) => {
     case "HIDE_ADD_DECK": return false;
     default: return state || false;
   }
-};
+}
