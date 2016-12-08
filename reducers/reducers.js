@@ -7,11 +7,22 @@ export const cards = ( state, action ) => {
       score: 1,
       id: moment().format()
     });
-    return state.concat([newCard])
+    return state.concat([newCard]);
+
+    case "UPDATE_CARD":
+    let cardUpdate = action.data;
+    return state.map(card => (card.id !== cardUpdate.id) ?
+      card :
+      Object.assign({}, card, cardUpdate );
+    );
+
+    case "DELETE_CARD":
+    return state.filter( c => c.id !== action.data );
+
     default:
     return state || [];
   }
-}
+};
 
 export const decks = (state, action) => {
   switch (action.type) {
