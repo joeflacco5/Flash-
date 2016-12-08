@@ -31374,9 +31374,13 @@ var _visiblecards = require('./components/visiblecards');
 
 var _visiblecards2 = _interopRequireDefault(_visiblecards);
 
-var _app = require('./components/app');
+var _main = require('./components/main');
 
-var _app2 = _interopRequireDefault(_app);
+var _main2 = _interopRequireDefault(_main);
+
+var _localstore = require('./localstore');
+
+var localStore = _interopRequireWildcard(_localstore);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -31390,7 +31394,7 @@ console.log("Hello React and Redux!");
 // State Shape. { cards: [{}, {}, {}], decks: [{}, {}, {}] } : Top level properties.
 // (As many Top Level Properties as possible, Reducer for each!)
 
-var store = (0, _redux.createStore)((0, _redux.combineReducers)(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+var store = (0, _redux.createStore)((0, _redux.combineReducers)(reducers), localStore.getLocalStore(), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 var history = (0, _reactRouterRedux.syncHistoryWithStore)(_reactRouter.browserHistory, store);
 
 function run() {
@@ -31403,7 +31407,7 @@ function run() {
       { history: history },
       _react2.default.createElement(
         _reactRouter.Route,
-        { path: '/', component: _app2.default },
+        { path: '/', component: _main2.default },
         _react2.default.createElement(_reactRouter.Route, { path: '/deck/:deckId', component: _visiblecards2.default })
       )
     )
@@ -31413,7 +31417,7 @@ function run() {
 run();
 store.subscribe(run);
 
-},{"./components/app":268,"./components/visiblecards":270,"./reducers/reducers":271,"moment":53,"react":253,"react-dom":57,"react-redux":186,"react-router":222,"react-router-redux":192,"redux":259}],268:[function(require,module,exports){
+},{"./components/main":268,"./components/visiblecards":270,"./localstore":271,"./reducers/reducers":272,"moment":53,"react":253,"react-dom":57,"react-redux":186,"react-router":222,"react-router-redux":192,"redux":259}],268:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31601,6 +31605,24 @@ var VisibleCards = function VisibleCards() {
 exports.default = VisibleCards;
 
 },{"react":253}],271:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var getLocalStore = exports.getLocalStore = function getLocalStore() {
+  return JSON.parse(localStorage.getItem('state')) || undefined;
+};
+
+var setLocalStore = exports.setLocalStore = function setLocalStore(state, props) {
+  var toSave = {};
+  props.forEach(function (p) {
+    return toSave[p] = state[p];
+  });
+  localStorage.setItem('state', JSON.stringify(toSave));
+};
+
+},{}],272:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
