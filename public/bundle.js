@@ -31399,6 +31399,7 @@ var history = (0, _reactRouterRedux.syncHistoryWithStore)(_reactRouter.browserHi
 
 function run() {
   var state = store.getState();
+  localStore.setLocalStore(state, ['decks', 'cards']);
   _reactDom2.default.render(_react2.default.createElement(
     _reactRedux.Provider,
     { store: store },

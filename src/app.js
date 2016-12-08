@@ -23,6 +23,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 function run() {
   let state = store.getState();
+  localStore.setLocalStore(state, ['decks', 'cards']); 
 ReactDOM.render(<Provider store={store}>
   <Router history={history}>
     <Route path='/' component={App}>
