@@ -31395,7 +31395,9 @@ console.log("Hello React and Redux!");
 // (As many Top Level Properties as possible, Reducer for each!)
 
 var store = (0, _redux.createStore)((0, _redux.combineReducers)(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-var history = function (_Component) {
+var history = (0, _reactRouterRedux.syncHistoryWithStore)(_reactRouter.browserHistory, store);
+
+var App = function (_Component) {
   _inherits(App, _Component);
 
   function App(props) {
@@ -31411,6 +31413,7 @@ var history = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: 'app' },
+        _react2.default.createElement(_sidebar2.default, null),
         props
       );
     }
@@ -31425,9 +31428,9 @@ function run() {
     _reactRedux.Provider,
     { store: store },
     _react2.default.createElement(
-      App,
-      null,
-      _react2.default.createElement(_sidebar2.default, null)
+      _reactRouter.Router,
+      { history: history },
+      _react2.default.createElement(_reactRouter.Route, { path: '/', component: App })
     )
   ), document.getElementById('root'));
 }

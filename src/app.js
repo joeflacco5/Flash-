@@ -7,7 +7,7 @@ import Sidebar from './components/sidebar';
 import * as reducers from './reducers/reducers';
 reducers.routing = routerReducer;
 import {Route, Router, browserHistory} from 'react-router';
-import {syncStoreWithHistory, routerReducer} from 'react-router-redux';
+import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 
 console.log("Hello React and Redux!");
 
@@ -15,7 +15,7 @@ console.log("Hello React and Redux!");
 // (As many Top Level Properties as possible, Reducer for each!)
 
 const store = createStore(combineReducers(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-const history =
+const history = syncHistoryWithStore(browserHistory, store);
 
 class App extends Component{
   constructor(props){
@@ -24,6 +24,7 @@ class App extends Component{
   render() {
     let props = this.props.children
     return (<div className='app'>
+    <Sidebar />
     {props}
   </div>);
   }
@@ -32,9 +33,9 @@ class App extends Component{
 function run() {
   let state = store.getState();
 ReactDOM.render(<Provider store={store}>
-  <App>
-  <Sidebar />
-  </App>
+  <Router history={history}>
+    <Route path='/' component={App}></Route>
+  </Router>
   </Provider> , document.getElementById('root'));
 }
 
