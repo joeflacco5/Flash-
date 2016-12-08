@@ -17,3 +17,14 @@ export const deleteCard = cardId => ({ type: "DELETE_CARD", data: cardId});
 export const filterCards = query => ({ type: "FILTER_CARDS", data: query });
 
 export const setShowBack = back => ({ type: "SHOW_BACK", data: back });
+
+export const receiveData = data => ({ type: "RECEIVE_DATA", data: data });
+
+export const fetchData = () => {
+  return dispatch => {
+    fetch('/api/data')
+      .then(res => res.json())
+      .then(json => dispatch(receiveData(json)));
+      // .catch(err => dispatch(failedRequest(err)));
+  };
+}; 

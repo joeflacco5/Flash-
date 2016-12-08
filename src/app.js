@@ -9,24 +9,23 @@ import {Route, Router, browserHistory} from 'react-router';
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 import VisibleCards from './components/visiblecards';
 import App from './components/main';
-import * as localStore from './localstore';
 import NewCardModal from './components/newcardmodal';
 import EditCardModal from './components/editcardmodal';
-import StudyModal from './components/studymodal'; 
-
+import StudyModal from './components/studymodal';
+import thunkMiddleware from 'redux-thunk';
+import { fetchData } from '../actions';
 console.log("Hello React and Redux!");
 
 // State Shape. { cards: [{}, {}, {}], decks: [{}, {}, {}] } : Top level properties.
 // (As many Top Level Properties as possible, Reducer for each!)
 
-const store = createStore(combineReducers(reducers), localStore.getLocalStore(), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(combineReducers(reducers), applyMiddleware(thunkMiddleware), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 const history = syncHistoryWithStore(browserHistory, store);
 
 
 
 function run() {
   let state = store.getState();
-  localStore.setLocalStore(state, ['decks', 'cards']);
 ReactDOM.render(<Provider store={store}>
   <Router history={history}>
     <Route path='/' component={App}>
@@ -40,5 +39,9 @@ ReactDOM.render(<Provider store={store}>
   </Provider> , document.getElementById('root'));
 }
 
+function init () {
 run();
 store.subscribe(run);
+store.subscribe(save);
+store.dispatch(fetchData())
+}
