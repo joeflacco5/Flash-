@@ -31383,6 +31383,10 @@ var filterCards = exports.filterCards = function filterCards(query) {
   return { type: "FILTER_CARDS", data: query };
 };
 
+var setShowBack = exports.setShowBack = function setShowBack(back) {
+  return { type: "SHOW_BACK", data: back };
+};
+
 },{}],268:[function(require,module,exports){
 'use strict';
 
@@ -31430,6 +31434,10 @@ var _editcardmodal = require('./components/editcardmodal');
 
 var _editcardmodal2 = _interopRequireDefault(_editcardmodal);
 
+var _studymodal = require('./components/studymodal');
+
+var _studymodal2 = _interopRequireDefault(_studymodal);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31461,7 +31469,8 @@ function run() {
           _reactRouter.Route,
           { path: '/deck/:deckId', component: _visiblecards2.default },
           _react2.default.createElement(_reactRouter.Route, { path: '/deck/:deckId/new', component: _newcardmodal2.default }),
-          _react2.default.createElement(_reactRouter.Route, { path: '/deck/:deckId/edit/:cardId', component: _editcardmodal2.default })
+          _react2.default.createElement(_reactRouter.Route, { path: '/deck/:deckId/edit/:cardId', component: _editcardmodal2.default }),
+          _react2.default.createElement(_reactRouter.Route, { path: '/deck/:deckId/study', component: _studymodal2.default })
         )
       )
     )
@@ -31471,7 +31480,7 @@ function run() {
 run();
 store.subscribe(run);
 
-},{"./components/editcardmodal":271,"./components/main":272,"./components/newcardmodal":273,"./components/visiblecards":276,"./localstore":277,"./reducers/reducers":278,"moment":54,"react":254,"react-dom":58,"react-redux":187,"react-router":223,"react-router-redux":193,"redux":260}],269:[function(require,module,exports){
+},{"./components/editcardmodal":271,"./components/main":272,"./components/newcardmodal":273,"./components/studymodal":275,"./components/visiblecards":277,"./localstore":278,"./reducers/reducers":279,"moment":54,"react":254,"react-dom":58,"react-redux":187,"react-router":223,"react-router-redux":193,"redux":260}],269:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31692,7 +31701,7 @@ var App = function App(_ref2) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 
-},{"./sidebar":274,"./toolbar":275,"react":254,"react-redux":187}],273:[function(require,module,exports){
+},{"./sidebar":274,"./toolbar":276,"react":254,"react-redux":187}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31845,6 +31854,157 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
+var _actions = require('../actions/actions');
+
+var _reactRedux = require('react-redux');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MS_IN_DAY = 86400000;
+
+var mapStateToProps = function mapStateToProps(_ref, _ref2) {
+  var cards = _ref.cards,
+      showBack = _ref.showBack;
+  var deckId = _ref2.params.deckId;
+  return {
+    showBack: showBack,
+    deckId: deckId,
+    card: cards.filter(function (card) {
+      return card.deckId === deckId && (!card.lastStudiedOn || (new Date() - card.lastStudiedOn) / MS_IN_DAY >= card.score);
+    })[0] // shows first card in the array!
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    onStudied: function onStudied(cardId, score) {
+      var now = new Date();
+      now.setHours(0, 0, 0, 0);
+
+      dispatch((0, _actions.updateCard)({ id: cardId, score: score, lastStudiedOn: +now }));
+      dispatch((0, _actions.setShowBack)());
+    },
+    onFlip: function onFlip() {
+      return dispatch((0, _actions.setShowBack)(true));
+    }
+  };
+};
+
+var StudyModal = function StudyModal(_ref3) {
+  var card = _ref3.card,
+      showBack = _ref3.showBack,
+      onFlip = _ref3.onFlip,
+      deckId = _ref3.deckId,
+      onStudied = _ref3.onStudied;
+
+  var body = _react2.default.createElement(
+    'div',
+    { className: 'no-cards' },
+    _react2.default.createElement(
+      'p',
+      null,
+      ' You have no cards to study in this deck right now. Good job! '
+    )
+  );
+
+  if (card) {
+    body = _react2.default.createElement(
+      'div',
+      { className: 'study-card' },
+      _react2.default.createElement(
+        'div',
+        { className: showBack ? 'front hide' : 'front' },
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'p',
+            null,
+            ' ',
+            card.front,
+            ' '
+          )
+        ),
+        _react2.default.createElement(
+          'button',
+          { onClick: onFlip },
+          ' Flip '
+        )
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: showBack ? 'back' : 'back hide' },
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'p',
+            null,
+            ' ',
+            card.back,
+            ' '
+          )
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          ' How did you do? '
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          _react2.default.createElement(
+            'button',
+            { onClick: function onClick(e) {
+                return onStudied(card.id, Math.max(card.score - 1, 1));
+              } },
+            ' Poorly '
+          ),
+          _react2.default.createElement(
+            'button',
+            { onClick: function onClick(e) {
+                return onStudied(card.id, card.score);
+              } },
+            ' Okay '
+          ),
+          _react2.default.createElement(
+            'button',
+            { onClick: function onClick(e) {
+                return onStudied(card.id, card.score + 1);
+              } },
+            ' Great '
+          )
+        )
+      )
+    );
+  }
+  return _react2.default.createElement(
+    'div',
+    { className: 'modal study-modal' },
+    _react2.default.createElement(
+      _reactRouter.Link,
+      { className: 'btn close', to: '/deck/' + deckId },
+      ' x '
+    ),
+    body
+  );
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(StudyModal);
+
+},{"../actions/actions":267,"react":254,"react-redux":187,"react-router":223}],276:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _actions = require('../actions/actions');
 
 var _reactRedux = require('react-redux');
@@ -31911,7 +32071,7 @@ var Toolbar = function Toolbar(_ref) {
 // remember to connect if you are creating a container component!
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Toolbar);
 
-},{"../actions/actions":267,"react":254,"react-redux":187,"react-router":223}],276:[function(require,module,exports){
+},{"../actions/actions":267,"react":254,"react-redux":187,"react-router":223}],277:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31966,7 +32126,7 @@ var VisibleCards = function VisibleCards(_ref3) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(VisibleCards);
 
-},{"./card":269,"fuzzysearch":24,"react":254,"react-redux":187}],277:[function(require,module,exports){
+},{"./card":269,"fuzzysearch":24,"react":254,"react-redux":187}],278:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31984,13 +32144,13 @@ var setLocalStore = exports.setLocalStore = function setLocalStore(state, props)
   localStorage.setItem('state', JSON.stringify(toSave));
 };
 
-},{}],278:[function(require,module,exports){
+},{}],279:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.cardFilter = exports.addingDeck = exports.decks = exports.cards = undefined;
+exports.showBack = exports.cardFilter = exports.addingDeck = exports.decks = exports.cards = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -32063,6 +32223,15 @@ var cardFilter = exports.cardFilter = function cardFilter(state, action) {
       return action.data;
     default:
       return state || " ";
+  }
+};
+
+var showBack = exports.showBack = function showBack(state, action) {
+  switch (action.type) {
+    case "SHOW_BACK":
+      return action.data || false;
+    default:
+      return state || false;
   }
 };
 

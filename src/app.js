@@ -12,6 +12,7 @@ import App from './components/main';
 import * as localStore from './localstore';
 import NewCardModal from './components/newcardmodal';
 import EditCardModal from './components/editcardmodal';
+import StudyModal from './components/studymodal'; 
 
 console.log("Hello React and Redux!");
 
@@ -32,6 +33,7 @@ ReactDOM.render(<Provider store={store}>
       <Route path='/deck/:deckId' component={VisibleCards}>
         <Route path='/deck/:deckId/new' component={NewCardModal}/>
         <Route path='/deck/:deckId/edit/:cardId' component={EditCardModal}/>
+        <Route path='/deck/:deckId/study' component={StudyModal}/>
       </Route>
     </Route>
   </Router>
