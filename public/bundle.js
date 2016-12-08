@@ -31430,7 +31430,50 @@ function run() {
 run();
 store.subscribe(run);
 
-},{"./components/main":269,"./components/newcardmodal":270,"./components/visiblecards":273,"./localstore":274,"./reducers/reducers":275,"moment":53,"react":253,"react-dom":57,"react-redux":186,"react-router":222,"react-router-redux":192,"redux":259}],268:[function(require,module,exports){
+},{"./components/main":270,"./components/newcardmodal":271,"./components/visiblecards":274,"./localstore":275,"./reducers/reducers":276,"moment":53,"react":253,"react-dom":57,"react-redux":186,"react-router":222,"react-router-redux":192,"redux":259}],268:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// taking a single property from the props ({ card })
+var Card = function Card(_ref) {
+  var card = _ref.card;
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'card' },
+    _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        'p',
+        null,
+        ' ',
+        card.front,
+        ' '
+      ),
+      _react2.default.createElement(
+        _reactRouter.Link,
+        { className: 'btn', to: '/deck/' + card.deckId + '/edit/' + card.id },
+        ' Edit '
+      )
+    )
+  );
+};
+
+exports.default = Card;
+
+},{"react":253,"react-router":222}],269:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31511,16 +31554,16 @@ var CardModal = _react2.default.createClass({
       front: front.value,
       back: back.value
     }));
-    browserHistory.push('/deck/' + this.props.card.deckId);
+    _reactRouter.browserHistory.push('/deck/' + this.props.card.deckId);
   },
   onDelete: function onDelete(e) {
     this.props.onDelete(this.props.card.id);
-    browserHistory.push('/deck/' + this.props.card.deckId);
+    _reactRouter.browserHistory.push('/deck/' + this.props.card.deckId);
   }
 });
 exports.default = CardModal;
 
-},{"react":253,"react-dom":57,"react-router":222}],269:[function(require,module,exports){
+},{"react":253,"react-dom":57,"react-router":222}],270:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31566,7 +31609,7 @@ var App = function App(_ref2) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
 
-},{"./sidebar":271,"./toolbar":272,"react":253,"react-redux":186}],270:[function(require,module,exports){
+},{"./sidebar":272,"./toolbar":273,"react":253,"react-redux":186}],271:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31601,7 +31644,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_cardmodal2.default);
 
-},{"../actions/actions":266,"./cardmodal":268,"react-redux":186}],271:[function(require,module,exports){
+},{"../actions/actions":266,"./cardmodal":269,"react-redux":186}],272:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31708,7 +31751,7 @@ var Sidebar = _react2.default.createClass({
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Sidebar);
 
-},{"../actions/actions":266,"react":253,"react-dom":57,"react-redux":186,"react-router":222}],272:[function(require,module,exports){
+},{"../actions/actions":266,"react":253,"react-dom":57,"react-redux":186,"react-router":222}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31775,7 +31818,7 @@ var Toolbar = function Toolbar(_ref) {
 // remember to connect if you are creating a container component!
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Toolbar);
 
-},{"../actions/actions":266,"react":253,"react-redux":186,"react-router":222}],273:[function(require,module,exports){
+},{"../actions/actions":266,"react":253,"react-redux":186,"react-router":222}],274:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31786,19 +31829,42 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _card = require('./card');
+
+var _card2 = _interopRequireDefault(_card);
+
+var _reactRedux = require('react-redux');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var VisibleCards = function VisibleCards() {
+var mapStateToProps = function mapStateToProps(_ref, _ref2) {
+  var cards = _ref.cards;
+  var deckId = _ref2.params.deckId;
+  return {
+    cards: cards.filter(function (c) {
+      return c.deckId === deckId;
+    })
+    // filter cards so we only have the cards with the same id as what we get in the url.
+  };
+};
+
+var VisibleCards = function VisibleCards(_ref3) {
+  var cards = _ref3.cards,
+      children = _ref3.children;
+
   return _react2.default.createElement(
     'div',
-    null,
-    ' Deck will display here '
+    { className: 'main' },
+    cards.map(function (card) {
+      return _react2.default.createElement(_card2.default, { card: card, key: card.id });
+    }),
+    children
   );
 };
 
-exports.default = VisibleCards;
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(VisibleCards);
 
-},{"react":253}],274:[function(require,module,exports){
+},{"./card":268,"react":253,"react-redux":186}],275:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31816,7 +31882,7 @@ var setLocalStore = exports.setLocalStore = function setLocalStore(state, props)
   localStorage.setItem('state', JSON.stringify(toSave));
 };
 
-},{}],275:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

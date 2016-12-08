@@ -1,7 +1,17 @@
-import React from 'react'; 
+import React from 'react';
+import Card from './card';
+import { connect } from 'react-redux';
 
-const VisibleCards = () => {
-  return (<div> Deck will display here </div>);
-}
+const mapStateToProps = ( { cards }, { params: { deckId } } ) => ({
+  cards: cards.filter( c => c.deckId === deckId )
+  // filter cards so we only have the cards with the same id as what we get in the url.
+});
 
-export default VisibleCards;
+const VisibleCards = ( {cards, children} ) => {
+  return (<div className='main'>
+  {cards.map(card => <Card card={card} key={card.id} /> )}
+  { children }
+  </div>);
+};
+
+export default connect(mapStateToProps)(VisibleCards);
