@@ -31346,6 +31346,12 @@ var hideAddDeck = exports.hideAddDeck = function hideAddDeck() {
 var addCard = exports.addCard = function addCard(card) {
   return { type: "ADD_CARD", data: card };
 };
+var updateCard = exports.updateCard = function updateCard(card) {
+  return { type: "UPDATE_CARD", data: card };
+};
+var deleteCard = exports.deleteCard = function deleteCard(cardId) {
+  return { type: "DELETE_CARD", data: cardId };
+};
 
 },{}],267:[function(require,module,exports){
 'use strict';
