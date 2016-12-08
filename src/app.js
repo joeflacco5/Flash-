@@ -39,9 +39,25 @@ ReactDOM.render(<Provider store={store}>
   </Provider> , document.getElementById('root'));
 }
 
+function save() {
+  var state = store.getState(); // gets current state of application.
+  fetch('/api/data', {  // post to '/api/data'
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type' : 'application/json'
+    },
+    body: JSON.stringify({
+      decks: state.decks,
+      cards: state.cards
+    });
+  });
+}
+
 function init () {
 run();
 store.subscribe(run);
-store.subscribe(save);
+store.subscribe(save); // everytime the store changes => save to server 
 store.dispatch(fetchData())
 }
+init();
