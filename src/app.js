@@ -8,6 +8,7 @@ import * as reducers from './reducers/reducers';
 reducers.routing = routerReducer;
 import {Route, Router, browserHistory} from 'react-router';
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
+import VisibleCards from './components/visiblecards';
 
 console.log("Hello React and Redux!");
 
@@ -34,7 +35,9 @@ function run() {
   let state = store.getState();
 ReactDOM.render(<Provider store={store}>
   <Router history={history}>
-    <Route path='/' component={App}></Route>
+    <Route path='/' component={App}>
+      <Route path='/deck/:deckId' component={VisibleCards}/>
+    </Route>
   </Router>
   </Provider> , document.getElementById('root'));
 }
